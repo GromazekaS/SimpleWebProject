@@ -39,12 +39,17 @@ class MyServer(BaseHTTPRequestHandler):
         </html>
         """
 
+    def __get_contacts(self):
+        with open('contacts.html', 'r', encoding='utf-8') as f:
+            context = f.read()
+        return context
+
     def do_GET(self):
         query_components = parse_qs(urlparse(self.path).query)
         page_address = query_components.get('page')
         page_content = self.__get_index()
         if page_address:
-            page_content = self.__get_blog_article(page_address[0])
+            page_content = self.__get_contacts()
         self.send_response(200)
         self.send_header("Content-type", "text/html")
         self.end_headers()
